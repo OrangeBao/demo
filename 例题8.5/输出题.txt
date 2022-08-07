@@ -1,0 +1,38 @@
+//第四题
+var a = 1
+
+function T1 () {
+    return function() {
+    	return this.a;
+    }
+}
+
+T1.call({a:2})();
+
+
+function T2 () {
+    return () => this.a;
+}
+
+T2.call({a:3})();
+
+输出：undefined  //匿名函数的this指向window,由于变量提升，函数声明会在变量声明之前，所以此时的this指向的全局变量a只被声明而未赋值，所以得到undeifned
+      3         //箭头函数的this指向定义时所处的域。默认指向父级的this
+
+
+//第七题
+function p () {
+	console.log(this.a);
+}
+window.a = 1;
+
+var o = { a: 2 };
+
+var t = { a: 3 };
+
+o.p = p;
+t.p = o.p;
+
+p();        // ? undefined  由于变量提升，函数声明在变量之前，此时a还未赋值
+o.p();      // ? 2          对于普通函数，谁调用该函数，this便指向谁
+t.p();      // ? 3
